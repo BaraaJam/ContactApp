@@ -7,6 +7,4 @@ public class ContactApp {
 
         ui.start();
     }
-
-
 }

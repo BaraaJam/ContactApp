@@ -13,4 +13,7 @@ public class ContactManager {
         System.out.println("Success! Contact added.");
     }
 
+    public ArrayList<Contact> getAllContacts() {
+        return contacts;
+    }
 }
