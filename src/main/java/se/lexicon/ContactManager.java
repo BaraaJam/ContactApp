@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 public class ContactManager {
     public final ArrayList<Contact> contacts = new ArrayList<>();
+    private int nextAvailableId = 1;
 
     public void contactAdd(String contactName, String contactPhoneNumber){
-        Contact newContact = new Contact(contactName, contactPhoneNumber);
+        int contactId = nextAvailableId;
+        Contact newContact = new Contact(contactId, contactName, contactPhoneNumber);
 
         contacts.add(newContact);
-
+        nextAvailableId++;
         System.out.println("Success! Contact added.");
     }
 
@@ -35,18 +37,17 @@ public class ContactManager {
         }
     }
 
-    public Contact getContactByName(String searchName) {
+    public Contact getContactById(int contactId) {
         for (Contact contact : contacts) {
-            if (contact.getContactName().equalsIgnoreCase(searchName)) {
-                foundMessage(contact);
+            if (contact.getContactId() == contactId){
                 return contact;
             }
         }
         return null;
     }
 
-    public void contactRemove (String exactName){
-        Contact contactToRemove = getContactByName(exactName);
+    public void contactRemove (int exactID){
+        Contact contactToRemove = getContactById(exactID);
 
         if (contactToRemove != null){
             contacts.remove(contactToRemove);
@@ -58,8 +59,9 @@ public class ContactManager {
 
     private void foundMessage(Contact contact){
         System.out.println("\n--- Contact Found ---");
-        System.out.println("Name: " + contact.getContactName());
-        System.out.println("Phone: " + contact.getContactPhoneNumber());
+        System.out.println("[ID: " + contact.getContactId() +
+                "] Name: " + contact.getContactName() +
+                " - Phone: " + contact.getContactPhoneNumber());
         System.out.println("---------------------");
     }
 }

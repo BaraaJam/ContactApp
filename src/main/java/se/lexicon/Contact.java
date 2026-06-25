@@ -2,12 +2,18 @@ package se.lexicon;
 
 
 public class Contact {
+    private final int contactId;
     private String contactName;
     private String contactPhoneNumber;
 
-    public Contact (String contactName, String contactPhoneNumber) {
+    public Contact (int contactId,String contactName, String contactPhoneNumber) {
+        this.contactId = contactId;
         this.contactName = contactName;
         this.contactPhoneNumber = contactPhoneNumber;
+    }
+
+    public int getContactId() {
+        return contactId;
     }
 
     public String getContactName() {

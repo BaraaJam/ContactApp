@@ -50,12 +50,15 @@ public class ConsoleUi {
                 case "2":
                     System.out.println("\n--- Your contact list ---");
                     ArrayList<Contact> contacts = manager.getAllContacts();
+                    contacts.sort((contact1, contact2) -> contact1.getContactName().compareToIgnoreCase(contact2.getContactName()));
                     System.out.println("-- You have "+ contacts.size() + " contacts --");
 
+
                     for (Contact currentContact : contacts) {
-                        System.out.println("Name: " + currentContact.getContactName());
-                        System.out.println("Phone: " + currentContact.getContactPhoneNumber());
-                        System.out.println("--------------------");
+                        System.out.println("[ID: " + currentContact.getContactId() +
+                                "] Name: " + currentContact.getContactName() +
+                                " - Phone: " + currentContact.getContactPhoneNumber());
+                        System.out.println("---------------------");
                     }
                     break;
 
@@ -70,20 +73,21 @@ public class ConsoleUi {
                 case "4":
                     System.out.println("\n--- Remove a contact ---");
 
-                    System.out.print("Enter the exact name: ");
-                    String toRemove = input.nextLine();
+                    System.out.print("Enter the contact's exact ID: ");
+                    int toRemove = input.nextInt();
                     manager.contactRemove(toRemove);
+                    input.nextLine();
 
                     break;
 
                 case "5":
                     System.out.println("\n--- Update a contact ---");
 
-                    System.out.print("Enter the contact's full name: ");
-                    String toUpdate = input.nextLine();
+                    System.out.print("Enter the contact's exact ID: ");
+                    int toUpdate = input.nextInt();
 
-                    Contact contactToUpdate = manager.getContactByName(toUpdate);
-
+                    Contact contactToUpdate = manager.getContactById(toUpdate);
+                    input.nextLine();
 
                     if (contactToUpdate != null) {
 
@@ -106,7 +110,7 @@ public class ConsoleUi {
                                 if (!newName.isBlank()) {
                                     contactToUpdate.setContactName(newName);
 
-                                    System.out.print("Updated successfully. Old name '" +
+                                    System.out.print("\nUpdated successfully. Old name '" +
                                             oldName + "' new name '" + newName + "'");
                                 } else {
                                     System.out.print("Name preserved.");
@@ -119,7 +123,7 @@ public class ConsoleUi {
 
                                 if (!newPhone.isBlank() && isValidPhoneFormat(newPhone)) {
                                     contactToUpdate.setPhoneNumber(newPhone);
-                                    System.out.print("Updated successfully. Old Phone '" +
+                                    System.out.print("\nUpdated successfully. Old Phone '" +
                                             oldPhone + "' new Phone '" + newPhone + "'");
                                 } else {
                                     System.out.print("Phone preserved.");
