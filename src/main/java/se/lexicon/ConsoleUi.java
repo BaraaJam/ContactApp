@@ -29,9 +29,9 @@ public class ConsoleUi {
                     System.out.print("Enter contact phone number: ");
                     String contactPhoneNumber = input.nextLine();
 
-                    manager.addContact(contactName, contactPhoneNumber);
-
+                    manager.contactAdd(contactName, contactPhoneNumber);
                     break;
+
                 case "2":
                     System.out.println("\n--- Your contact list ---");
                     ArrayList<Contact> contacts = manager.getAllContacts();
@@ -42,12 +42,30 @@ public class ConsoleUi {
                         System.out.println("Phone: " + currentContact.getContactPhoneNumber());
                         System.out.println("--------------------");
                     }
+                    break;
+
+                case "3":
+                    System.out.println("\n--- Search a contact ---");
+
+                    System.out.print("Enter contact name or phone number(supports partial search): ");
+                    String search = input.nextLine();
+                    manager.contactSearch(search);
+                    break;
+
+                case "4":
+                    System.out.println("\n--- Remove a contact ---");
+
+                    System.out.print("Enter the contact's full name: ");
+                    String remove = input.nextLine();
+                    manager.contactRemove(remove);
 
                     break;
-                case "3":
+
+                case "5":
                     System.out.println("Goodbye!");
                     isRunning = false;
                     break;
+
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
