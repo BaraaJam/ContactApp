@@ -24,11 +24,7 @@ public class ContactManager {
         for (Contact contact : contacts ) {
             if (contact.getContactName().toLowerCase().contains(searchLower) ||
                     contact.getContactPhoneNumber().toLowerCase().contains(searchLower)) {
-
-                System.out.println("\n--- Contact Found ---");
-                System.out.println("Name: " + contact.getContactName());
-                System.out.println("Phone: " + contact.getContactPhoneNumber());
-                System.out.println("---------------------");
+                foundMessage(contact);
                 isFound = true;
 
             }
@@ -39,15 +35,18 @@ public class ContactManager {
         }
     }
 
-    public void contactRemove (String contactSearch){
-        Contact contactToRemove = null;
-
-        for (Contact contact : contacts ) {
-            if (contact.getContactName().equalsIgnoreCase(contactSearch)){
-                contactToRemove = contact;
-                break;
+    public Contact getContactByName(String searchName) {
+        for (Contact contact : contacts) {
+            if (contact.getContactName().equalsIgnoreCase(searchName)) {
+                foundMessage(contact);
+                return contact;
             }
         }
+        return null;
+    }
+
+    public void contactRemove (String exactName){
+        Contact contactToRemove = getContactByName(exactName);
 
         if (contactToRemove != null){
             contacts.remove(contactToRemove);
@@ -55,5 +54,12 @@ public class ContactManager {
         } else {
             System.out.println("\nContact not found, make sure to enter the full name.");
         }
+    }
+
+    private void foundMessage(Contact contact){
+        System.out.println("\n--- Contact Found ---");
+        System.out.println("Name: " + contact.getContactName());
+        System.out.println("Phone: " + contact.getContactPhoneNumber());
+        System.out.println("---------------------");
     }
 }

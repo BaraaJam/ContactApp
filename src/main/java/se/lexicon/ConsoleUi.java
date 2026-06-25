@@ -14,7 +14,11 @@ public class ConsoleUi {
             System.out.println("\n--- Contact Manager ---");
             System.out.println("1. Add a contact");
             System.out.println("2. Display all contacts");
-            System.out.println("3. Exit");
+            System.out.println("3. Search contacts");
+            System.out.println("4. Remove a contact");
+            System.out.println("5. Update a contact");
+            System.out.println("6. Exit");
+            System.out.println("--------------------");
             System.out.print("Enter your option: ");
 
             String userInput = input.nextLine();
@@ -48,20 +52,66 @@ public class ConsoleUi {
                     System.out.println("\n--- Search a contact ---");
 
                     System.out.print("Enter contact name or phone number(supports partial search): ");
-                    String search = input.nextLine();
-                    manager.contactSearch(search);
+                    String toSearch = input.nextLine();
+                    manager.contactSearch(toSearch);
                     break;
 
                 case "4":
                     System.out.println("\n--- Remove a contact ---");
 
-                    System.out.print("Enter the contact's full name: ");
-                    String remove = input.nextLine();
-                    manager.contactRemove(remove);
+                    System.out.print("Enter the exact name: ");
+                    String toRemove = input.nextLine();
+                    manager.contactRemove(toRemove);
 
                     break;
 
                 case "5":
+                    System.out.println("\n--- Update a contact ---");
+
+                    System.out.print("Enter the contact's full name: ");
+                    String toUpdate = input.nextLine();
+
+                    Contact contactToUpdate = manager.getContactByName(toUpdate);
+
+                    if (contactToUpdate != null){
+                        System.out.print("Which field you wish to update? (e.g Name or Phone): ");
+                        String fieldToUpdate = input.nextLine();
+
+                        if (fieldToUpdate.equalsIgnoreCase("name")){
+                            System.out.print("Enter new name (or press Enter to keep current): ");
+                            String newName = input.nextLine();
+                            String oldName = contactToUpdate.getContactName();
+
+                            if (!newName.isBlank()){
+                                contactToUpdate.setContactName(newName);
+
+                                System.out.print("Updated successfully. Old name " +
+                                        oldName + " new name " + newName);
+                            } else {
+                                System.out.print("Name preserved.");
+                            }
+
+                        } else if (fieldToUpdate.equalsIgnoreCase("phone")) {
+                            System.out.print("Enter new Phone (or press Enter to keep current): ");
+                            String newPhone = input.nextLine();
+                            String oldPhone = contactToUpdate.getContactPhoneNumber();
+
+                            if (!newPhone.isBlank()){
+                                contactToUpdate.setPhoneNumber(newPhone);
+                                System.out.print("Updated successfully. Old Phone " +
+                                        oldPhone + " new Phone " + newPhone);
+                            } else {
+                                System.out.print("Phone preserved.");
+                            }
+                        } else {
+                            System.out.print("Invalid input.");
+                        }
+                    } else {
+                        System.out.println("Contact not found.");
+                    }
+                    break;
+
+                case "6":
                     System.out.println("Goodbye!");
                     isRunning = false;
                     break;

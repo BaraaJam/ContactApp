@@ -2,8 +2,8 @@ package se.lexicon;
 
 
 public class Contact {
-    private final String contactName;
-    private final String contactPhoneNumber;
+    private String contactName;
+    private String contactPhoneNumber;
 
     public Contact (String contactName, String contactPhoneNumber) {
         this.contactName = contactName;
@@ -11,10 +11,18 @@ public class Contact {
     }
 
     public String getContactName() {
-        return this.contactName;
+        return contactName;
     }
 
     public String getContactPhoneNumber() {
-        return this.contactPhoneNumber;
+        return contactPhoneNumber;
+    }
+
+    public void setContactName(String contactName){
+        this.contactName = contactName;
+    }
+
+    public void setPhoneNumber(String contactPhoneNumber){
+        this.contactPhoneNumber = contactPhoneNumber;
     }
 }
