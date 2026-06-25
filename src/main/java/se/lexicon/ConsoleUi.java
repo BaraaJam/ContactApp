@@ -26,12 +26,23 @@ public class ConsoleUi {
             switch (userInput){
                 case "1":
                     System.out.println("\n--- Add a contact ---");
+                    String contactName = "";
+                    while (contactName.isBlank()){
+                        System.out.print("Enter contact name: ");
+                        contactName = input.nextLine();
+                        if (contactName.isBlank()){
+                            System.out.println("Name cannot be blank!");
+                        }
+                    }
 
-                    System.out.print("Enter contact name: ");
-                    String contactName = input.nextLine();
-
-                    System.out.print("Enter contact phone number: ");
-                    String contactPhoneNumber = input.nextLine();
+                    String contactPhoneNumber = "";
+                    while (contactPhoneNumber.isBlank() || !isValidPhoneFormat(contactPhoneNumber)) {
+                        System.out.print("Enter contact phone number: ");
+                        contactPhoneNumber = input.nextLine();
+                        if (contactPhoneNumber.isBlank() || !isValidPhoneFormat(contactPhoneNumber)) {
+                            System.out.println("Invalid! Phone cannot be blank and must contain only numbers.");
+                        }
+                    }
 
                     manager.contactAdd(contactName, contactPhoneNumber);
                     break;
@@ -73,38 +84,49 @@ public class ConsoleUi {
 
                     Contact contactToUpdate = manager.getContactByName(toUpdate);
 
-                    if (contactToUpdate != null){
-                        System.out.print("Which field you wish to update? (e.g Name or Phone): ");
-                        String fieldToUpdate = input.nextLine();
 
-                        if (fieldToUpdate.equalsIgnoreCase("name")){
-                            System.out.print("Enter new name (or press Enter to keep current): ");
-                            String newName = input.nextLine();
-                            String oldName = contactToUpdate.getContactName();
+                    if (contactToUpdate != null) {
 
-                            if (!newName.isBlank()){
-                                contactToUpdate.setContactName(newName);
+                        boolean updating = true;
 
-                                System.out.print("Updated successfully. Old name " +
-                                        oldName + " new name " + newName);
+                        while (updating){
+
+                            System.out.print("Which field do you wish to update? (Type 'Name', 'Phone', or 'Stop' to finish): ");
+                            String fieldToUpdate = input.nextLine();
+
+                            if (fieldToUpdate.equalsIgnoreCase("stop")) {
+                                updating = false;
+                                System.out.println("Finished updating " + contactToUpdate.getContactName() + ".");
+
+                            } else if (fieldToUpdate.equalsIgnoreCase("name")) {
+                                System.out.print("Enter new name (or press Enter to keep current): ");
+                                String newName = input.nextLine();
+                                String oldName = contactToUpdate.getContactName();
+
+                                if (!newName.isBlank()) {
+                                    contactToUpdate.setContactName(newName);
+
+                                    System.out.print("Updated successfully. Old name '" +
+                                            oldName + "' new name '" + newName + "'");
+                                } else {
+                                    System.out.print("Name preserved.");
+                                }
+
+                            } else if (fieldToUpdate.equalsIgnoreCase("phone")) {
+                                System.out.print("Enter new Phone (or press Enter to keep current): ");
+                                String newPhone = input.nextLine();
+                                String oldPhone = contactToUpdate.getContactPhoneNumber();
+
+                                if (!newPhone.isBlank() && isValidPhoneFormat(newPhone)) {
+                                    contactToUpdate.setPhoneNumber(newPhone);
+                                    System.out.print("Updated successfully. Old Phone '" +
+                                            oldPhone + "' new Phone '" + newPhone + "'");
+                                } else {
+                                    System.out.print("Phone preserved.");
+                                }
                             } else {
-                                System.out.print("Name preserved.");
+                                System.out.println("Invalid input. Please type 'Name', 'Phone', or 'Stop'.");
                             }
-
-                        } else if (fieldToUpdate.equalsIgnoreCase("phone")) {
-                            System.out.print("Enter new Phone (or press Enter to keep current): ");
-                            String newPhone = input.nextLine();
-                            String oldPhone = contactToUpdate.getContactPhoneNumber();
-
-                            if (!newPhone.isBlank()){
-                                contactToUpdate.setPhoneNumber(newPhone);
-                                System.out.print("Updated successfully. Old Phone " +
-                                        oldPhone + " new Phone " + newPhone);
-                            } else {
-                                System.out.print("Phone preserved.");
-                            }
-                        } else {
-                            System.out.print("Invalid input.");
                         }
                     } else {
                         System.out.println("Contact not found.");
@@ -121,6 +143,10 @@ public class ConsoleUi {
             }
         }
 
+    }
+
+    private boolean isValidPhoneFormat(String phone) {
+        return phone.matches("[0-9\\-+ ]+");
     }
 
 }
