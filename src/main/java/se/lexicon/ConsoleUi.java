@@ -73,21 +73,39 @@ public class ConsoleUi {
                 case "4":
                     System.out.println("\n--- Remove a contact ---");
 
-                    System.out.print("Enter the contact's exact ID: ");
-                    int toRemove = input.nextInt();
+                    int toRemove;
+                    while (true){
+                        System.out.print("Enter the contact's exact ID: ");
+                        String idInput = input.nextLine();
+
+                        try {
+                            toRemove = Integer.parseInt(idInput);
+                            break;
+                        } catch (NumberFormatException e){
+                            System.out.println("Invalid input! Please type a numeric ID.");
+                        }
+                    }
                     manager.contactRemove(toRemove);
-                    input.nextLine();
 
                     break;
 
                 case "5":
                     System.out.println("\n--- Update a contact ---");
 
-                    System.out.print("Enter the contact's exact ID: ");
-                    int toUpdate = input.nextInt();
+                    int toUpdate;
+                    while (true) {
+                        System.out.print("Enter the contact's exact ID: ");
+                        String idInput = input.nextLine();
+
+                        try {
+                            toUpdate = Integer.parseInt(idInput);
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid input! Please type a numeric ID.");
+                        }
+                    }
 
                     Contact contactToUpdate = manager.getContactById(toUpdate);
-                    input.nextLine();
 
                     if (contactToUpdate != null) {
 
@@ -133,7 +151,7 @@ public class ConsoleUi {
                             }
                         }
                     } else {
-                        System.out.println("Contact not found.");
+                        System.out.println("Contact not found, make sure to enter correct ID.");
                     }
                     break;
 
@@ -146,11 +164,10 @@ public class ConsoleUi {
                     System.out.println("Invalid option. Please try again.");
             }
         }
-
+        input.close();
     }
 
     private boolean isValidPhoneFormat(String phone) {
-        return phone.matches("[0-9\\-+ ]+");
+        return phone.matches("^\\+?[0-9][0-9\\- ]*[0-9]$");
     }
-
 }
