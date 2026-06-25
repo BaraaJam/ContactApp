@@ -25,10 +25,16 @@ public class Contact {
     }
 
     public void setContactName(String contactName){
+        if (contactName == null || contactName.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be blank.");
+        }
         this.contactName = contactName;
     }
 
     public void setPhoneNumber(String contactPhoneNumber){
+        if (contactPhoneNumber == null || contactPhoneNumber.isBlank()) {
+            throw new IllegalArgumentException("Phone cannot be blank.");
+        }
         this.contactPhoneNumber = contactPhoneNumber;
     }
 }

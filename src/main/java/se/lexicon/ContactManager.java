@@ -7,9 +7,12 @@ public class ContactManager {
     private int nextAvailableId = 1;
 
     public void contactAdd(String contactName, String contactPhoneNumber){
+        if (contactName == null || contactName.isBlank()) {
+            throw new IllegalArgumentException("Contact name cannot be empty.");
+        }
+
         int contactId = nextAvailableId;
         Contact newContact = new Contact(contactId, contactName, contactPhoneNumber);
-
         contacts.add(newContact);
         nextAvailableId++;
         System.out.println("Success! Contact added.");
@@ -53,7 +56,7 @@ public class ContactManager {
             contacts.remove(contactToRemove);
             System.out.println("\nContact " + contactToRemove.getContactName() + " removed successfully.");
         } else {
-            System.out.println("\nContact not found, make sure to enter the full name.");
+            System.out.println("\nContact not found, make sure to enter correct ID.");
         }
     }
 
