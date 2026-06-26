@@ -3,8 +3,21 @@ package se.lexicon;
 import java.util.ArrayList;
 
 public class ContactManager {
-    public final ArrayList<Contact> contacts = new ArrayList<>();
+    public ArrayList<Contact> contacts = new ArrayList<>();
     private int nextAvailableId = 1;
+    private final FileHandler handler = new FileHandler();
+
+    public ContactManager() {
+        this.contacts = handler.loadFromFile();
+
+        int maxId=0;
+        for (Contact contact : contacts){
+            if (contact.getContactId() > maxId){
+                maxId = contact.getContactId();
+            }
+        }
+        nextAvailableId = maxId + 1;
+    }
 
     public void contactAdd(String contactName, String contactPhoneNumber){
         if (contactName == null || contactName.isBlank()) {
@@ -61,10 +74,14 @@ public class ContactManager {
     }
 
     private void foundMessage(Contact contact){
-        System.out.println("\n--- Contact Found ---");
+        System.out.println("\n----- Contact Found -----");
         System.out.println("[ID: " + contact.getContactId() +
                 "] Name: " + contact.getContactName() +
                 " - Phone: " + contact.getContactPhoneNumber());
-        System.out.println("---------------------");
+        System.out.println("-------------------------");
+    }
+
+    public void saveData(){
+        handler.saveToFile(contacts);
     }
 }

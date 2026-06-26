@@ -11,14 +11,14 @@ public class ConsoleUi {
         boolean isRunning = true;
 
         while (isRunning) {
-            System.out.println("\n--- Contact Manager ---");
+            System.out.println("\n---- Contact Manager ----");
             System.out.println("1. Add a contact");
             System.out.println("2. Display all contacts");
             System.out.println("3. Search contacts");
             System.out.println("4. Remove a contact");
             System.out.println("5. Update a contact");
             System.out.println("6. Exit");
-            System.out.println("--------------------");
+            System.out.println("-------------------------");
             System.out.print("Enter your option: ");
 
             String userInput = input.nextLine();
@@ -58,7 +58,7 @@ public class ConsoleUi {
                         System.out.println("[ID: " + currentContact.getContactId() +
                                 "] Name: " + currentContact.getContactName() +
                                 " - Phone: " + currentContact.getContactPhoneNumber());
-                        System.out.println("---------------------");
+                        System.out.println("-------------------------");
                     }
                     break;
 
@@ -157,6 +157,7 @@ public class ConsoleUi {
 
                 case "6":
                     System.out.println("Goodbye!");
+                    manager.saveData();
                     isRunning = false;
                     break;
 
